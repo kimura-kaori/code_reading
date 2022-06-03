@@ -16,9 +16,7 @@ class TeamsController < ApplicationController
   end
 
   def edit
-    unless @team.owner == current_user
-      redirect_to root_path
-    end
+    redirect_to root_path unless @team.owner == current_user
   end
 
   def create
@@ -52,27 +50,25 @@ class TeamsController < ApplicationController
   end
 
   def owner_change
-  #owner_idというキーがshow.html.erbから送られてきた:kimura_idの値を保持しており、その内容でupdateしている
+    # owner_idというキーがshow.html.erbから送られてきた:kimura_idの値を保持しており、その内容でupdateしている
     @team.update(owner_id: params[:kimura_id])
     if @team.save
-    ChangeMailer.send_message_to_user(current_user).deliver
-    redirect_to team_path, notice: 'オーナー権限が移動しました!'
+      ChangeMailer.send_message_to_user(current_user).deliver
+      redirect_to team_path, notice: 'オーナー権限が移動しました!'
     else
       render :new
     end
   end
-    # binding.irb
-    # @team = Team.find(params[:id])
-    # @user = User.where(user_id: @team.id)
-    #ここでチーム内のユーザー情報を取得したい
+  # binding.irb
+  # @team = Team.find(params[:id])
+  # @user = User.where(user_id: @team.id)
+  # ここでチーム内のユーザー情報を取得したい
 
-    #チームテーブルではオーナーidはあるけど、ユーザーidは持ってない
-    #userとteamの中間テーブルがassign
+  # チームテーブルではオーナーidはあるけど、ユーザーidは持ってない
+  # userとteamの中間テーブルがassign
 
-    #選択したユーザーをオーナーに代入する
-    # @team.owner = assign.id
-
-
+  # 選択したユーザーをオーナーに代入する
+  # @team.owner = assign.id
 
   private
 
