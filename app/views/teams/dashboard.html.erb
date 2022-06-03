@@ -15,7 +15,7 @@
                 <td>
                   <%= link_to article_path(article) do %>
                     <span><%= article.team.name %><%= I18n.t('views.common.team') %></span>
-                    <span class="badge bg-primary"><%= article.agenda.title %></span>
+                    <span class="badge bg-primary"><%= article.agenda.title%></span>
                     <%= article.title %>
                   <% end %>
                   <br>
